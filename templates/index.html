@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <title>Todo App</title>
+</head>
+<body>
+    <div style="margin-top:150px" class="container">
+        <h3>Anasayfa</h3>
+        <hr>
+
+        <form action="addTodo" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="formGroupExampleInput">Todo başlık</label>
+              <input type="text" name="title" class="form-control" id="formGroupExampleInput" placeholder="Todo başlığınızı girin..">
+            </div>
+            <button type="submit" class="btn btn-danger"> Ekle </button>
+          </form>
+            <hr>
+          {% if veri %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Todo başlık</th>
+                <th scope="col">Todo durum</th>
+                <th scope="col">guncelle</th>
+                <th scope="col">sil</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for aa in veri %}
+                <tr>
+                    
+                    <th scope="row">{{aa.id}}</th>
+                    <td>{{aa.title}}</td>
+                    <td>
+                        {% if aa.completed %}
+                        <p>Tamamlandı</p>
+                        {% else %}
+                        <p>Tamamlanmadı</p>
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="/update/{{aa.id}}" role="button">Güncelle</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" href="/delete/{{aa.id}}" role="button">Sil</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+
+            </tbody>
+          </table>
+          {% else %}
+            <div class="alert alert-danger" role="alert">
+            Herhangi bir todonuz bulunmuyor.
+          </div>
+          {% endif %}
+
+
+    </div>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</body>
+</html>
